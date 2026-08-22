@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "name": "STM32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "C:\\Users\\darwi\\Downloads\\arm-gcc\\arm-none-eabi\\include"
+            ],
+            "defines": [],
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "compilerPath": "C:\\Users\\darwi\\Downloads\\arm-gcc\\bin\\arm-none-eabi-gcc.exe",
+            "compilerArgs": [
+                "-mcpu=cortex-m3",
+                "-mthumb"
+            ],
+            "intelliSenseMode": "gcc-arm"
+        }
+    ],
+    "version": 4
+}
