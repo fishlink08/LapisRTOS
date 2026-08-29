@@ -1,18 +1,5 @@
-Memory Management:  Allocates and tracks physical RAM and virtual memory for different programs, 
-                    ensuring apps do not overwrite each other's data.
-
-
-Device Control & Drivers:   Acts as a bridge to hardware using device drivers to translate software 
-                            commands for components like GPUs, storage drives, and keyboards.
-
-
-System Calls & Inter-Process Communication (IPC):   Provides a secure interface (system calls) so user-mode applications can request 
-                                                    services like reading a file or sending network data.
-
-
-Security & Access Control:  Enforces permissions, isolating kernel space from user space to prevent a crashing or 
-                            malicious app from damaging the entire system.
-
-
-Interrupt Handling: Pauses current operations immediately to respond to hardware signals, such as a mouse click or a 
-                    packet arriving on a network car
+-Heap allocator
+-Controlled task scheduling
+-Resource Management
+-Driver Modularity
+-Code Module Modularity

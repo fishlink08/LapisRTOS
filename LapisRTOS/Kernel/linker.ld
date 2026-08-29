@@ -41,5 +41,11 @@ SECTIONS {
         _ebss = .;
     } > SRAM
 
+    .heap :
+    {
+        _sheap = .;
+        . = . + 4096;
+        _eheap = .;
+    } > SRAM
 
 }

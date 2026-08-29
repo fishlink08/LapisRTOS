@@ -10,6 +10,9 @@ extern uint32_t _flashtopdata;
 extern uint32_t _sbss;
 extern uint32_t _ebss;
 
+extern uint32_t _sheap;
+extern uint32_t _eheap;
+
 typedef void(*vector_item)(void);
 
 void RESET_HANDLER(void);
