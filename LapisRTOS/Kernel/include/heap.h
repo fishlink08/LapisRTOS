@@ -2,8 +2,7 @@
 #define RTOS_HEAP_H
 
 #include "stdint.h"
-
-typedef uint32_t size_t;
+#include "stddef.h"
 
 void heap_init(void);
 

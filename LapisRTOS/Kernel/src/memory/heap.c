@@ -1,13 +1,15 @@
-#include "heap.h"
+#include "../../include/heap.h"
+
+#include <stddef.h>
 
 extern char _sheap;
 extern char _eheap;
 
-typedef enum {false = 0, true = 1} bool;
-typedef struct {
+typedef enum {FALSE = 0, TRUE = 1} boolean;
+typedef struct heap_header{
     uint8_t size;
-    bool free;
-    heap_header* next;
+    boolean free;
+    struct heap_header* next;
 } heap_header;
 
 size_t heap_size;
@@ -20,8 +22,8 @@ void heap_init(void)
 
     heap_size = end - start;
 
-    heap_header* s = start;
-    s->free = true;
+    heap_header* s = (void*)start;
+    s->free = TRUE;
     s->size = 0;
     s->next = NULL;
 }
@@ -30,27 +32,27 @@ void heap_init(void)
 void * malloc(size_t size)
 {   
     unsigned char* current_address = &_sheap;
-    heap_header * allocated_header = current_address;
+    heap_header * allocated_header = (heap_header*)current_address;
 
-    while (true)
+    while (TRUE)
     {
         if (allocated_header->free)
         {
             if (allocated_header->size >= size)
             {
                 break;
-            } else if (allocated_header->size == 0 && sizeof(heap_header) + size <= &_eheap - current_address)
+            } else if (allocated_header->size == 0 && sizeof(heap_header) + size <= (unsigned char*)&_eheap - current_address)
             {
                 break;
             }
         }
 
-        if (sizeof(heap_header) + size > &_eheap - current_address) {return NULL;}
+        if (sizeof(heap_header) + size > (unsigned char*)&_eheap - current_address) {return NULL;}
 
         if (allocated_header->next != NULL)
         {
-            current_address = allocated_header->next;
-            allocated_header = current_address;
+            current_address = (unsigned char*)allocated_header->next;
+            allocated_header = (heap_header*)current_address;
         } else {
             return NULL;
         }
@@ -58,28 +60,28 @@ void * malloc(size_t size)
     }
 
     allocated_header->size = (uint8_t)size;
-    allocated_header->free = false;
+    allocated_header->free = FALSE;
 
     current_address += sizeof(heap_header);
     void* allocated_address = (void*)current_address;
 
     current_address += size;
 
-    if (&_eheap - current_address >= sizeof(heap_header) + 1)
+    if ((unsigned char*)&_eheap - current_address >= sizeof(heap_header) + 1)
     {
 
         if (allocated_header->next == NULL)
         {
-            heap_tail = current_address;
+            heap_tail = (unsigned char*)current_address;
         } 
 
         if (heap_tail == current_address)
         {
             
-            allocated_header->next = heap_tail;
-            heap_header* next = current_address; 
+            allocated_header->next = (heap_header*)heap_tail;
+            heap_header* next = (heap_header*)current_address; 
 
-            next->free = true;
+            next->free = TRUE;
             next->size = 0;
             next->next = NULL;
         }
@@ -93,5 +95,5 @@ void free(void* ptr)
 {
     heap_header* allocated_header = ptr - sizeof(heap_header);
 
-    allocated_header->free = true;
+    allocated_header->free = TRUE;
 }

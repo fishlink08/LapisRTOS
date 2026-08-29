@@ -1,5 +1,5 @@
 #include "../../include/scheduler.h"
-#include "LapisRTOS/Kernel/include/io.h"
+#include "../../include/io.h"
 
 #include <stdint.h>
 
