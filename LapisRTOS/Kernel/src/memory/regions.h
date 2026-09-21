@@ -1,0 +1,9 @@
+#ifndef HEAP_REGIONS_H
+#define HEAP_REGIONS_H
+
+#define BYTE8_OFFSET 	0x0
+#define BYTE16_OFFSET  	(BYTE8_OFFSET + 0x1000)
+#define BYTE32_OFFSET  	(BYTE16_OFFSET + 0x960)
+#define REGION_END 		(BYTE32_OFFSET + 0x480)
+
+#endif
