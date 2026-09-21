@@ -1,4 +1,4 @@
-#include "LapisRTOS/Kernel/kernel.h"
+#include "LapisRTOS/kernel.h"
 
 int main(void)
 {

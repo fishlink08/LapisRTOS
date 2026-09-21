@@ -6,6 +6,7 @@ CFLAGS = -mcpu=cortex-m3 -mthumb -g
 
 C_SRC = \
 	$(wildcard *.c) \
+	$(Wildcard LapisRTOS/*.c) \
 	$(wildcard LapisRTOS/Kernel/*.c) \
 	$(wildcard LapisRTOS/Kernel/src/*.c) \
 	$(wildcard LapisRTOS/Kernel/src/memory/*.c) \
