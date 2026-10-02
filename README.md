@@ -1,6 +1,12 @@
+# A Lightweight RTOS for ARM Cortex Microcontrollers
 
-# A Lightweight RTOS for ARM Cortex Microcontrollers.
+This allows you to dynamically (during runtime) add, update, or remove modules of code or drivers. This gives you the ability to avoid recompiling the program as a whole, as well as giving your code a safe environment with tools such as heap allocation and task scheduling.
 
-This allows you to dynamically (during runtime) add, update, or remove modules of code or drivers. Giving you the ability to not have to recompile the program as a whole, as well as giving your code a safe environment with many tools such as heap allocation, or task scheduling. 
+There are two main parts you may change during runtime:
 
- **Actively Working on This Project :)**
+* **Code Modules:** These are modular pieces of code that are run automatically once put into the environment. You may use drivers you have added in these pieces of code.
+* **Drivers:** These are drivers which the code modules may use, automatically updated for each code module currently using them. These are typically for the ARM Cortex registers and peripherals.
+
+LapisRTOS provides a safe and direct environment for each code module and driver to run in. This environment also provides various tools which the LapisRTOS kernel handles, such as heap allocation, task scheduling, error containment, and more. This gives the programmer plenty of tools to use without having to worry about fragmentation or completely crashing the microcontroller as a whole.
+
+**Actively Working on This Project :)**
