@@ -3,10 +3,10 @@
 #ifndef IO_H
 #define IO_H
 
-#define RCC             0x40021000
-#define RCC_APB2ENR     (*(volatile uint32_t*)(RCC + 0x18))
+#define RCC             0x40023800
+#define RCC_APB2ENR     (*(volatile uint32_t*)(RCC + 0x44))
 
-#define SCB_ICSR        (*(volatile uint32_t*)((0xE000ED00) + 0x04))
+#define SCB_ICSR        (*(volatile uint32_t*)(( 0xE000ED00) + 0x04))
 #define PENDSVSET       (1U << 28)
 
 #define SYST_CTRL       (*(volatile uint32_t*)(0xE000E010)) // Control and Status Register

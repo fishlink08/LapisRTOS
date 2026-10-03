@@ -4,7 +4,7 @@
 #include "stdint.h"
 #include "stddef.h"
 
-void heap_init(void);
+void initHeap(void);
 
 void* malloc(size_t size);
 void free(void* ptr);

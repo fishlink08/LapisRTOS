@@ -3,29 +3,32 @@
 
 #include <stdint.h>
 
-#define MAX_TASKS 5
+#define MAX_TASKS 20
 #define STACK_SIZE 128
 
+typedef enum {FALSE, TRUE} boolean;
 typedef struct
 {
     void*(*function)(void);
     uint32_t STACK[STACK_SIZE]          __attribute__((aligned(8)));
-    uint32_t * stack_pointer;   // program counter heads here 
+    uint32_t * stack_pointer;           // program counter heads here 
 } Task;
 
 static Task tasks[MAX_TASKS];
 static uint32_t task_count = 0;
 volatile uint32_t current_task = 0;
 
+static boolean scheduler_initialized = FALSE;
+static uint8_t kernel_restricted_MAX_TASKS;
 
 void SysTick_Handler(void)
 {
     SCB_ICSR = PENDSVSET;
 }
 
-void init_systick(void)
+void init_systick(uint32_t SwitchSpeed)
 {
-    SYST_LOAD = 2000000 - 1;
+    SYST_LOAD = SwitchSpeed - 1;
     SYST_VAL = 0;
 
     SYST_CTRL |= (1U << 0) | (1U << 1) | (1U << 2);
@@ -53,7 +56,8 @@ uint32_t * get_stack_first(void)
 
 void _create_task(void*(*function)(void))
 {
-    // create task and place it on the scheduler
+    if (!scheduler_initialized) {return;}
+    if (task_count >= kernel_restricted_MAX_TASKS) {return;}
 
     Task * tsk = &tasks[task_count];
     tsk->function = function;
@@ -84,12 +88,21 @@ void _create_task(void*(*function)(void))
 
 }
 
-void _start_scheduler(void)
+void _start_scheduler(uint32_t SWITCH_SPEED, uint8_t kr_MAX_TASKS)
 {
-    if (task_count == 0);
+    if (!scheduler_initialized)
+    {
+        if (kr_MAX_TASKS > MAX_TASKS) {return;}
 
-    current_task = 0;
-    init_systick();
+        kernel_restricted_MAX_TASKS = kr_MAX_TASKS;
+        if (task_count == 0);
 
-    __asm volatile("svc 0");
+        current_task = 0;
+        init_systick(SWITCH_SPEED);
+
+        __asm volatile("svc 0");
+
+        scheduler_initialized = TRUE;
+    }
 }
+

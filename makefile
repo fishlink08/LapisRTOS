@@ -2,25 +2,32 @@ CC = arm-none-eabi-gcc
 OBJCOPY = arm-none-eabi-objcopy
 OPENOCD = openocd
 
-CFLAGS = -mcpu=cortex-m3 -mthumb -g
+CFLAGS = -mcpu=cortex-m4 -mthumb -g -Ikernel/include
+
+EXAMPLES_SRC = \
+	$(wildcard examples/basic/*.c)
+
+DEBUG_SRC = \
+	$(wildcard debug_tools/*.c)
 
 C_SRC = \
 	$(wildcard *.c) \
-	$(Wildcard LapisRTOS/*.c) \
-	$(wildcard LapisRTOS/Kernel/*.c) \
-	$(wildcard LapisRTOS/Kernel/src/*.c) \
-	$(wildcard LapisRTOS/Kernel/src/memory/*.c) \
-	$(wildcard LapisRTOS/Kernel/src/scheduler/*.c)
+	$(wildcard kernel/*.c) \
+	$(wildcard kernel/src/*.c) \
+	$(wildcard kernel/src/memory/*.c) \
+	$(wildcard kernel/src/scheduler/*.c)
 
 S_SRC = \
-	$(wildcard LapisRTOS/Kernel/src/*.s) \
-	$(wildcard LapisRTOS/Kernel/src/scheduler/*.s)
+	$(wildcard kernel/src/*.s) \
+	$(wildcard kernel/src/scheduler/*.s)
 	
 
+EXAMPLES_OBJ = $(patsubst %.c,bin/%.o,$(EXAMPLES_SRC))
+DEBUG_OBJ = $(patsubst %.c,bin/%.o,$(DEBUG_SRC))
 C_OBJ = $(patsubst %.c,bin/%.o,$(C_SRC))
 S_OBJ = $(patsubst %.s,bin/%.o,$(S_SRC))
 
-OBJ = $(C_OBJ) $(S_OBJ)
+OBJ = $(EXAMPLES_OBJ) $(DEBUG_OBJ) $(C_OBJ) $(S_OBJ)
 
 all: flash
 NOFLASH: bin/firmware.elf
@@ -37,9 +44,9 @@ bin/%.o: %.s
 	$(CC) $(CFLAGS) -c $< -o $@
 
 
-bin/firmware.elf: $(OBJ) LapisRTOS/Kernel/linker.ld
+bin/firmware.elf: $(OBJ) kernel/linker.ld
 	$(CC) $(CFLAGS) -nostdlib -nostartfiles $(OBJ) \
-		-T LapisRTOS/Kernel/linker.ld \
+		-T kernel/linker.ld \
 		-o bin/firmware.elf
 
 

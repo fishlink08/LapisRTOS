@@ -6,7 +6,7 @@
 extern uint32_t *get_ptr(void);
 extern void set_ptr(uint32_t *ptr);
 
-void _start_scheduler(void);
+void _start_scheduler(uint32_t SWITCH_SPEED, uint8_t kr_MAX_TASKS);
 void _create_task(void*(*function)(void));
 
 #endif
