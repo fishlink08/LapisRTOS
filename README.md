@@ -1,4 +1,4 @@
-# A Lightweight RTOS for ARM Cortex Microcontrollers
+# A Dynamic RTOS for ARM Cortex-M Microcontrollers
 
 This allows you to dynamically (during runtime) add, update, or remove modules of code or drivers. This gives you the ability to avoid recompiling the program as a whole, as well as giving your code a safe environment with tools such as heap allocation and task scheduling.
 
